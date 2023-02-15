@@ -1,0 +1,221 @@
+{
+    "Comment": {
+        "prefix": "comm",
+        "body": [
+            "%------------------------------------------------------------------------------",
+            "% $1",
+            "$0",
+            "%------------------------------------------------------------------------------"
+        ],
+       "description": "Add a comment"
+    },
+
+    "TColorBox": {
+        "prefix": "colbox",
+        "body": [
+            "\\begin{tcolorbox}[colback=$1, colframe=$1, sharp corners]",
+	        "\t$0",
+            "\\end{tcolorbox}"
+        ],
+        "description": "Borderless colorbox"
+    },
+
+    "Title TColorBox": {
+        "prefix": "tcolbox",
+        "body": [
+            "\\begin{tcolorbox}[title = {$1}, coltitle=$2, colback=$3, colframe=$4, sharp corners]",
+	        "\t$0",
+            "\\end{tcolorbox}"
+        ],
+        "description": "Borderless colorbox"
+    },
+
+    "HTML Color": {
+        "prefix": "color",
+        "body": ["\\definecolor{${1:Color name}}{HTML}{#${2:color}}"],
+        "description": "Define a color in HTML format"
+    },
+
+    "Wrap Image": {
+        "prefix": "wrap",
+        "body": [
+            "\\begin{wrapfigure}[$3]{r}{$2\\textwidth}",
+            "\t\\centering",
+            "\t\\raisebox{0pt}[\\dimexpr\\height-0.5\\baselineskip\\relax]{\\includegraphics[width=$2\\textwidth]{$1}}",
+            "\\end{wrapfigure}"
+        ]
+    },
+
+    "Add Image": {
+        "prefix": "image",
+        "body": ["\\includegraphics[width=$2\\textwidth]{$1}"],
+        "description": "Add a regular image"
+    },
+
+    "Clear page": {
+        "prefix": "cl",
+        "body": ["\\clearpage"],
+        "description": "Clear page command",
+        "autotrigger": true
+    },
+
+    "Clear double page": {
+        "prefix": "cdp",
+        "body": ["\\cleardoublepage"],
+        "description": "Clear double page command",
+        "autotrigger": true
+    },
+
+    "Section": {
+        "prefix": "section",
+        "body": ["\\section{$1}"],
+        "description": "Add LaTeX section"
+    },
+
+
+    "Subsection": {
+        "prefix": "subsection",
+        "body": ["\\subsection{$1}"],
+        "description": "Add LaTeX subsection"
+    },
+
+    "Subsubsection": {
+        "prefix": "subsubsection",
+        "body": ["\\subsubsection{$1}"],
+        "description": "Add LaTeX subsubsection"
+    },
+
+    "Subsubsubsection": {
+        "prefix": "subsubsubsection",
+        "body": ["\\subsubsubsection{$1}"],
+        "description": "Add LaTeX subsubsubsection"
+    },
+
+    "Vertical Space": {
+        "prefix": "vspace",
+        "body": ["\\vspace{$1}"],
+        "description": "Insert vertical space"
+    },
+
+    "Boldmath": {
+        "prefix": "bm",
+        "body": ["$\\mathbf{$1}$"],
+        "description": "Bold math environment"
+    },
+
+    "0.2cm Vertical Space": {
+        "prefix": "vs2",
+        "body": ["\\vspace{0.2cm}"],
+        "description": "Insert a 0.2 cm vertical space"
+    },
+
+    "0.5cm Vertical Space": {
+        "prefix": "vs5",
+        "body": ["\\vspace{0.5cm}"],
+        "description": "Insert a 0.5 cm vertical space"
+    },
+
+    "Begin": {
+        "prefix": "beg",
+        "body": [
+            "\\begin{$1}",
+            "\t$0",
+            "\\end{$1}"
+        ],
+        "description": "Begin block"
+    },
+
+    "Center environment": {
+        "prefix": "center",
+        "body": [
+            "\\begin{center}",
+            "\t$1",
+            "\\end{center}"],
+        "description": ""
+    },
+
+    "Figure environment": {
+        "prefix": "center",
+        "body": [
+            "\\begin{figure}[$1]",
+            "\t\\centering",
+            "\t$2",
+            "\t\\caption[$3]{$4}",
+            "\t\\label{$5}",
+            "\\end{figure}"],
+        "description": ""
+    },
+
+    "Itemize group": {
+        "prefix": "itemize",
+        "body": [
+            "\\begin{itemize}",
+            "\t\\item $1",
+            "\\end{itemize}"
+        ],
+        "description": "Itemize block"
+    },
+
+    "Code block": {
+        "prefix": "listing",
+        "body": [
+            "\\vspace{0.2cm}",
+            "\\begin{lstlisting}[language=${1:language}]",
+            "$0",
+            "\\end{lstlisting}"
+        ],
+        "description": ""
+    },
+
+    "Minipage": {
+        "prefix": "minipage",
+        "body": [
+            "\\vspace{0.2cm}",
+            "\\begin{minipage}{$1\\linewidth}",
+            "\t$0",
+            "\\end{minipage}"
+            ],
+        "description": "Insert minipage block"
+    },
+
+    "Colored table row": {
+        "prefix": "colrow",
+        "body": [
+            "\\hline\\rowcolor{$1}",
+            "\t$0"
+            ],
+        "description": ""
+    },
+
+    "Bold font": {
+        "prefix": "bf",
+        "body": ["\\textbf{$1}"],
+        "description": "Create bold font text"
+    },
+
+    "Italic": {
+        "prefix": "ita",
+        "body": ["\\textit{$1}"],
+        "description": "Create italic font text"
+    },
+
+    "Enumerate": {
+        "prefix": "enumerate",
+        "body": [
+            "\\begin{enumerate}",
+            "\t\\item $0",
+            "\\end{enumerate}"],
+        "description": "Enumerate block"
+    },
+
+    "Tabular": {
+        "prefix": "tabular",
+        "body": [
+            "\\begin{tabular}{$1}",
+            "\t$0",
+            "\\end{tabular}"
+        ],
+        "description": "Tabular block"
+    }
+
+}

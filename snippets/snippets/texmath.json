@@ -1,0 +1,56 @@
+{
+    "Fraction": {
+        "prefix": "frac",
+        "body": ["\\frac{$1}{$2}"],
+        "description": ""
+    },
+
+    "Derivative": {
+        "prefix": "der",
+        "body": ["\\frac{d$1}{d $2} \\;"],
+        "description": "Insert derivative in fraction form"
+    },
+
+    "Partial Derivative": {
+        "prefix": "pder",
+        "body": ["\\frac{\\partial$1}{\\partial $2} \\;"],
+        "description": "Insert partial derivative in fraction form"
+    },
+
+    "Integral": {
+        "prefix": "int",
+        "body": ["\\int $1 \\; d$2"],
+        "description": "Integral"
+    },
+
+    "Finite integral": {
+        "prefix": "defint",
+        "body": ["\\int_{$1}^{$2} $3 \\; d$4"],
+        "description": "Finite integral"
+    },
+
+    "Limit": {
+        "prefix": "limmit",
+        "body": ["\\lim_{$1 \\to $2} \\; $3"],
+        "description": "Limmit"
+    },
+
+    "Equation": {
+        "prefix": "equation",
+        "body": [
+            "\\begin{equation}",
+            "\t$1",
+            "\\end{equation}"
+        ],
+        "description": ""
+    },
+
+    "Equation without number": {
+        "prefix": "equation*",
+        "body": [
+            "\\begin{equation*}",
+            "\t$1",
+            "\\end{equation*}"],
+        "description": "Equation without number"
+    }   
+}
