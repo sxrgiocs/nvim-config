@@ -135,7 +135,7 @@
     },
 
     "Figure environment": {
-        "prefix": "center",
+        "prefix": "figure",
         "body": [
             "\\begin{figure}[$1]",
             "\t\\centering",

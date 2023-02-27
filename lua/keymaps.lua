@@ -1,5 +1,5 @@
 local function map(mode, lhs, rhs, opts)
-    local options = {noremap = true, silent = true}
+    local options = { noremap = true, silent = true }
     if opts then
         options = vim.tbl_extend("force", options, opts)
     end
@@ -21,11 +21,11 @@ end
 --map("c", "<Down>", "", {noremap=true})
 
 -- Buffers
-map("n", "<C-H>", ":bprev<CR>", {noremap=true})
-map("n", "<C-L>", ":bnext<CR>", {noremap=true})
+map("n", "<C-H>", ":bprev<CR>", { noremap = true })
+map("n", "<C-L>", ":bnext<CR>", { noremap = true })
 
 -- NVimTree
-map("n", "<leader>t", ":NvimTreeToggle<CR>", {noremap = true})
+map("n", "<leader>t", ":NvimTreeToggle<CR>", { noremap = true })
 
 -- Ranger
 map("n", "<leader>r", ":Ranger<CR>", {})
@@ -39,7 +39,7 @@ map("", "<leader>+", ":res -5<CR>", {})
 map("", "<leader>_", ":res +5<CR>", {})
 
 -- LaTeX preview
-map("", "<leader>p", ":StartLatexPreview<CR>", {noremap=true})
+map("", "<leader>p", ":StartLatexPreview<CR>", { noremap = true })
 
 -- Numbers
 map("n", "<leader>n", ":set relativenumber!<CR>", {})

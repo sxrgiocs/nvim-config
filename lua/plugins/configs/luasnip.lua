@@ -13,7 +13,7 @@ luasnip.config.set_config {
 -- directory for my custom snippets
 --vim.opt.runtimepath = vim.opt.runtimepath .. ''
 
-require("luasnip/loaders/from_vscode").load({paths = '~/.config/nvim/snippets'})
+require("luasnip/loaders/from_vscode").load({ paths = '~/.config/nvim/snippets' })
 --require("luasnip/loaders/from_vscode").load({paths = '/home/sergio/.local/share/nvim/site/pack/packer/opt/friendly-snippets'})
 
 --require("luasnip/loaders/from_vscode").load()

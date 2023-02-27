@@ -1,3 +1,4 @@
+-- define the theme to use, which must be selected in the "theme" file
 local global_theme = "colors.themes/" .. require("colors.theme").ui.theme
 local colors = require(global_theme)
 

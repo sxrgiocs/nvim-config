@@ -1,199 +1,113 @@
-local present, _ = pcall(require, "plugins.packerInit")
-local packer
+vim.cmd [[packadd packer.nvim]]
 
-vim.cmd([[autocmd BufWritePost plugins.lua source <afile> | PackerCompile]])
+vim.cmd([[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua PackerSync
+  augroup end
+]])
 
-if present then
-    packer = require "packer"
-else
-    return false
-end
+-- call packer
+local packer = require("packer")
 
-local use = packer.use
+packer.init {
+    display = {
+        open_fn = function()
+            return require("packer.util").float { border = "single" }
+        end,
+        prompt_border = "single",
+    },
+    git = {
+        clone_timeout = 600, -- Timeout, in seconds, for git clones
+    },
+    auto_clean = true,
+    compile_on_sync = true,
+    --    auto_reload_compiled = true
+}
 
-return packer.startup(
-    function()
+return packer.startup(function(use)
+    use 'wbthomason/packer.nvim'
 
-        use "wbthomason/packer.nvim"
+    -- lsp
+    use {
+        'williamboman/mason.nvim',
+        'williamboman/mason-lspconfig.nvim',
+        'neovim/nvim-lspconfig',
+        'onsails/lspkind-nvim',
+    }
 
-        -- Colors
-        use {
-            "norcalli/nvim-colorizer.lua",
-            config = function()
-                require("plugins.configs.colorizer")
-            end
+    -- Aesthetic plugins (bufferline, statusline...)
+    use { 'akinsho/nvim-bufferline.lua' }
+    use { 'NTBBloodbath/galaxyline.nvim' }
+    use { 'kyazdani42/nvim-web-devicons' } -- icons used by galaxyline
+
+    -- to show colors when they are RGB or HEX inside the file in the editor
+    use { 'norcalli/nvim-colorizer.lua' }
+
+    -- treesitter
+    use {
+        'nvim-treesitter/nvim-treesitter',
+    }
+
+    -- telescope
+    use {
+        'nvim-telescope/telescope.nvim',
+        requires = {
+            { 'nvim-lua/plenary.nvim' },
+            { 'nvim-telescope/telescope-fzy-native.nvim' }
+        },
+    }
+
+    -- nvimtree
+    use {
+        'nvim-tree/nvim-tree.lua',
+        requires = {
+            'nvim-tree/nvim-web-devicons', -- optional, for file icons
+        },
+    }
+
+    -- ranger file manager implementation
+    use {
+        'francoiscabrol/ranger.vim',
+        requires = {
+            'rbgrouleff/bclose.vim'
         }
+    }
 
-        -- Aesthetic plugins (bufferline, statusline...)
-        use {
-            "akinsho/nvim-bufferline.lua",
-            config = function()
-                require "plugins.configs.bufferline"
-            end
-        }
+    -- completion
+    use {
+        'hrsh7th/nvim-cmp',
+        'hrsh7th/cmp-buffer',
+        'hrsh7th/cmp-path',
+        'hrsh7th/cmp-cmdline',
+        'hrsh7th/cmp-nvim-lsp',
+        'saadparwaiz1/cmp_luasnip',
+    }
 
-        use {
-            "NTBBloodbath/galaxyline.nvim",
-            config = function()
-                require "plugins.configs.statusline"
-            end
-        }
+    -- snippets
+    use {
+        'L3MON4D3/LuaSnip',
+        after = 'nvim-cmp',
+    }
 
-        use {
-            "kyazdani42/nvim-web-devicons",
-            config = function()
-            require "plugins.configs.icons"
-            end
-        }
-
-        use {
-            'nvim-treesitter/nvim-treesitter',
-            run = ':TSUpdate',
-            config = function()
-                require "plugins.configs.treesitter"
-            end
-        }
-
-        -- File exploring
-        use {
-            'nvim-telescope/telescope.nvim',
-            requires = {
-                {'nvim-lua/plenary.nvim'},
-                {"nvim-telescope/telescope-fzy-native.nvim"}
-            },
-            config = function()
-                require "plugins.configs.telescope"
-            end,
-        }
-
-        use {
-            "kyazdani42/nvim-tree.lua",
-            cmd = "NvimTreeToggle",
-            config = function()
-                require "plugins.configs.nvimtree"
-            end
-        }
-
-        use {
-            "francoiscabrol/ranger.vim",
-            requires = {
-                "rbgrouleff/bclose.vim"
-            }
-        }
-
-        --LSP
-        use {
-            "williamboman/mason.nvim",
-            event = "BufRead",
-        }
-
-        use {
-            "williamboman/mason-lspconfig.nvim",
-        }
-
-        use {
-            "neovim/nvim-lspconfig",
-            after = "mason.nvim",
-            config = function()
-                require "plugins.configs.lsp.lspconfig"
-            end,
-        }
-
-        use {
-            "onsails/lspkind-nvim",
-            config = function()
-                require("plugins.configs.lsp.lspkind")
-            end
-        }
-
-        use {
-            'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim'
-        }
-
-        -- Completion and snippets
-        use {
-            "hrsh7th/nvim-cmp",
-            config = function()
-                require "plugins.configs.cmp"
-            end,
-        }
-
-        use {
-            "L3MON4D3/LuaSnip",
-            after = "nvim-cmp",
-            config = function()
-                require("plugins.configs.luasnip")
-            end,
-        }
-
-        use {
-            "saadparwaiz1/cmp_luasnip",
-        }
-
-        use {
-            "hrsh7th/cmp-nvim-lua",
-        }
-
-        use {
-            "hrsh7th/cmp-nvim-lsp",
-        }
-
-        use {
-            "hrsh7th/cmp-buffer",
-        }
-
-        -- Git plugins
-        use {
-            'lewis6991/gitsigns.nvim',
-            requires = {
+    -- git
+    use {
+        'lewis6991/gitsigns.nvim',
+        requires = {
             'nvim-lua/plenary.nvim'
-            },
-            config = function()
-                require('gitsigns').setup()
-            end,
-        }
+        },
+    }
 
-        -- LaTeX
-        use {
-            "lervag/vimtex",
-            ft = {"tex"}
-        }
+    -- latex
+    use {
+        "lervag/vimtex",
+        "conornewton/vim-latex-preview",
+        ft = { "tex" }
+    }
 
-        use {
-            "conornewton/vim-latex-preview",
-            ft = {"tex"}
-        }
-
-        -- Misc
-        use {
-            "windwp/nvim-autopairs",
-            config = function()
-                require "plugins.configs.autopairs"
-            end,
-        }
-
-        use {
-            "andymass/vim-matchup",
-        }
-
-        --use {
-        --    "lukas-reineke/indent-blankline.nvim",
-        --}
-
-        use {
-            "glepnir/dashboard-nvim",
-            cmd = {
-                "Dashboard",
-                "DashboardNewFile",
-                "DashboardJumpMarks",
-                "SessionLoad",
-                "SessionSave",
-            },
-            config = function()
-                require "plugins.configs.dashboard"
-            end,
-        }
-    end
-)
-
-
+    -- daily usage
+    use {
+        'windwp/nvim-autopairs',
+        'andymass/vim-matchup'
+    }
+end)

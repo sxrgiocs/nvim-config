@@ -8,7 +8,7 @@ end
 
 bufferline.setup {
     options = {
-        offsets = {{filetype = "NvimTree", text = "", padding = 1}},
+        offsets = { { filetype = "NvimTree", text = "", padding = 1 } },
         buffer_close_icon = "",
         modified_icon = "",
         close_icon = "",
@@ -32,10 +32,10 @@ bufferline.setup {
     highlights = {
         fill = {
             fg = colors.black,
-            bg = colors.black       -- rest of the bufferline
+            bg = colors.black -- rest of the bufferline
         },
 
-        background = {                  -- color of the unselected buffers
+        background = { -- color of the unselected buffers
             fg = colors.black2,
             bg = colors.black
         },
@@ -109,4 +109,3 @@ bufferline.setup {
 
     }
 }
-
