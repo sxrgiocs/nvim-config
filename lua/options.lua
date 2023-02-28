@@ -16,7 +16,7 @@ set.showtabline = 2
 
 -- Indenting
 set.expandtab = true
-set.shiftwidth = 4      -- number of spaces which compose the 'tab' action
+set.shiftwidth = 4 -- number of spaces which compose the 'tab' action
 set.smartindent = true
 set.tabstop = 4
 set.softtabstop = 4
@@ -34,19 +34,19 @@ set.scrolloff = 8
 set.hlsearch = false
 set.incsearch = true
 set.hidden = true
-set.signcolumn="yes"
+set.signcolumn = "yes"
 set.colorcolumn = "80"
 
 -- history
 set.swapfile = false
 set.backup = false
-set.undodir = "/home/sergio/.nvim/undodir"
+set.undodir = os.getenv("HOME") .. "/.config/nvim/undodir"
 set.undofile = true
 
 -- set linewidth for certain files
 vim.api.nvim_exec([[
     autocmd BufRead,BufNewFile *.tex setlocal textwidth=120
-    ]],false)
+    ]], false)
 
 -- set spelling check
 vim.api.nvim_exec([[
@@ -59,7 +59,8 @@ set.spelllang = "en_us"
 
 -- languagetool
 let.languagetool_lang = "en-US"
-let.languagetool_jar = "/usr/share/java/languagetool/languagetool-commandline.jar" -- if languagetool is installed from the AUR is always this path
+let.languagetool_jar =
+"/usr/share/java/languagetool/languagetool-commandline.jar" -- if languagetool is installed from the AUR is always this path
 
 -- Dashboard
 let.indentLine_fileTypeExclude = "dashboard"
@@ -74,11 +75,11 @@ let.latex_engine = "xelatex"
 
 -- LaTeX settings (I do not how how to write 'au' in lua bc I'm stupid)
 vim.api.nvim_exec([[
-    autocmd BufNewFile,BufRead *.tex set nocursorline 
+    autocmd BufNewFile,BufRead *.tex set nocursorline
     autocmd BufNewFile,BufRead *.tex set nornu
-    autocmd BufNewFile,BufRead *.tex set number 
-    autocmd BufNewFile,BufRead *.tex let g:loaded_matchparen=1 
-    autocmd BufNewFile,BufRead *.tex set noshowmatch 
+    autocmd BufNewFile,BufRead *.tex set number
+    autocmd BufNewFile,BufRead *.tex let g:loaded_matchparen=1
+    autocmd BufNewFile,BufRead *.tex set noshowmatch
     autocmd BufNewFile,BufRead *.tex set conceallevel=0
     ]], false)
 
