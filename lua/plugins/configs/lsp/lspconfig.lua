@@ -41,16 +41,21 @@ end
 
 local lsp_config = {
     on_attach = function(client, bufnr)
-        on_attach(_, bufnr)
+        on_attach(client, bufnr)
     end
 }
 
+local pylsp = require("plugins.configs.lsp.servers.pylsp")
+
 require('mason-lspconfig').setup_handlers({
     function(server_name)
-        require('lspconfig')[server_name].setup(lsp_config)
+        if server_name == 'pylsp' then
+            pylsp()
+        else
+            require('lspconfig')[server_name].setup(lsp_config)
+        end
     end,
 
     require "plugins.configs.lsp.servers.lua_ls",
-    require "plugins.configs.lsp.servers.pylsp",
     require "plugins.configs.lsp.servers.bashls"
 })

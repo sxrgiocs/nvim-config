@@ -35,7 +35,7 @@ set.hlsearch = false
 set.incsearch = true
 set.hidden = true
 set.signcolumn = "yes"
-set.colorcolumn = "80"
+set.colorcolumn = "81,101"
 
 -- history
 set.swapfile = false
