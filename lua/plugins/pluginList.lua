@@ -108,6 +108,6 @@ return packer.startup(function(use)
     -- daily usage
     use {
         'windwp/nvim-autopairs',
-        'andymass/vim-matchup'
+        -- 'andymass/vim-matchup'
     }
 end)

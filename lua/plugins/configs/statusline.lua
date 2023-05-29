@@ -117,7 +117,7 @@ gls.left[6] = {
     current_dir = {
         provider = function()
             local dir_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
-            return "  " .. dir_name .. "/"
+            return "  " .. dir_name .. "/"
         end,
         highlight = { colors.white, colors.black2 },
     }
@@ -143,14 +143,14 @@ local checkwidth = function()
 end
 
 gls.left[8] = {
--- modified/special icons
+    -- modified/special icons
     Modified = {
         provider = function()
             if vim.bo.readonly then
                 return '   '
             end
             if not vim.bo.modifiable then
-                return '   '
+                return '   '
             end
         end,
         highlight = { colors.gray, colors.black2 },
@@ -252,7 +252,7 @@ gls.right[7] = {
 gls.right[8] = {
     LineIcon = {
         provider = function()
-            return " "
+            return "󰭸 "
         end,
         highlight = { colors.black, colors.purple }
     },

@@ -20,7 +20,7 @@ require 'plugins.configs.nvimtree'
 require 'plugins.configs.cmp'
 
 -- snippets
-require 'plugins.configs.luasnip'
+-- require 'plugins.configs.luasnip'
 
 -- git signs
 require('gitsigns').setup()
