@@ -1,7 +1,7 @@
-local M  = {}
+local M = {}
 
-M.ui = {
-   theme = "NightParrot.colors",
+M.ui    = {
+    theme = "NightParrot.colors",
 }
 
 return M
