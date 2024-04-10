@@ -103,7 +103,6 @@ return packer.startup(function(use)
     -- latex
     use {
         "lervag/vimtex",
-        "conornewton/vim-latex-preview",
         ft = { "tex" }
     }
 

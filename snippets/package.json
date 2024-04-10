@@ -16,7 +16,12 @@
       },
       {
         "language": "json",
-        "path": "./json.json"}
+        "path": "./json.json"
+      },
+      {
+        "language": "python",
+        "path": "./python.json"
+      }
     ]
   }
 }

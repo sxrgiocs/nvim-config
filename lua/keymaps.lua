@@ -39,7 +39,7 @@ map("", "<leader>+", ":res -5<CR>", {})
 map("", "<leader>_", ":res +5<CR>", {})
 
 -- LaTeX preview
-map("", "<leader>p", ":StartLatexPreview<CR>", { noremap = true })
+map("", "<leader>p", ":VimtexCompile<CR>", { noremap = true })
 
 -- Numbers
 map("n", "<leader>n", ":set relativenumber!<CR>", {})

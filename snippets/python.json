@@ -1,0 +1,9 @@
+{
+    "Breakpoint": {
+        "prefix": "bp",
+        "body": [
+            "breakpoint()"
+        ],
+       "description": "Implement a breakpoint for debugging"
+    }
+}
