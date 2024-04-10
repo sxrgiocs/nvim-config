@@ -87,7 +87,9 @@ return packer.startup(function(use)
     -- snippets
     use {
         'L3MON4D3/LuaSnip',
-        after = 'nvim-cmp',
+        requires = {
+            'rafamadriz/friendly-snippets'
+        }
     }
 
     -- git

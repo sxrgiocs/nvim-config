@@ -5,18 +5,19 @@ if not present then
 end
 
 luasnip.config.set_config {
-    history = false,
-    --updateevents = "TextChanged,TextChangedI",
+    history = true,
+    updateevents = "TextChanged,TextChangedI",
     region_check_events = 'CursorHold'
 }
 
--- directory for my custom snippets
-vim.opt.runtimepath = vim.opt.runtimepath .. ''
+-- logging
+-- luasnip.log.set_loglevel("info")
+-- luasnip.log.open()
 
-require("luasnip/loaders/from_vscode").load({ paths = '~/.config/nvim/snippets' })
-require("luasnip/loaders/from_vscode").load({
-    paths = '/home/sergio/.local/share/nvim/site/pack/packer/opt/friendly-snippets' })
+-- snipmate (.snippets snipets)
+-- require('luasnip.loaders.from_snipmate').lazy_load({ paths = '~/.config/nvim/snippets', })
 
-require("luasnip/loaders/from_vscode").load()
+-- vscode format (.json snippets)
+require('luasnip.loaders.from_vscode').lazy_load({ paths = '~/.config/nvim/snippets', })
 
 -- For my future self, you complete the snippet using Tab :D

@@ -1,25 +1,22 @@
 {
   "name": "my-snippets",
-  "engines": {
-    "vscode": "^1.11.0"
-  },
   "contributes": {
     "snippets": [
       {
         "language": "tex",
-        "path": "./snippets/latex.json"
+        "path": "./latex.json"
       },
       {
         "language": "tex",
-        "path": "./snippets/texmath.json"
+        "path": "./texmath.json"
       },
       {
         "language": "tex",
-        "path": "./snippets/unitex.json"
+        "path": "./unitex.json"
       },
       {
         "language": "json",
-        "path": "./snippets/json.json"}
+        "path": "./json.json"}
     ]
   }
 }
