@@ -56,3 +56,5 @@ map("n", "<leader>fn", ":DashboardNewFile", {})
 map("n", "<leader>d", ":Dashboard<CR>", {})
 
 map("n", "\\lc", ":VimtexStop<cr>:VimtexClean<cr>")
+
+map('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')

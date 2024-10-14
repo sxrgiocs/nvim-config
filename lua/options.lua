@@ -85,3 +85,27 @@ vim.api.nvim_exec([[
 
 let.vimtex_view_method = "zathura"
 let.vimtex_compiler_method = "latexmk"
+
+local M = {}
+
+M.is_x_display = function()
+    local x_display = os.getenv("DISPLAY")
+    return x_display ~= nil and x_display ~= ""
+end
+
+if M.is_x_display() then
+    vim.g.clipboard = {
+        name = "xsel",
+        copy = {
+            ["+"] = "xsel --clipboard --input",
+            ["*"] = "xsel --input",
+        },
+        paste = {
+            ["+"] = "xsel --clipboard --output",
+            ["*"] = "xsel --output",
+        },
+        cache_enabled = 1,
+    }
+end
+
+return M
