@@ -88,21 +88,23 @@ let.vimtex_compiler_method = "latexmk"
 
 local M = {}
 
+-- Function to check if X display is available
 M.is_x_display = function()
     local x_display = os.getenv("DISPLAY")
     return x_display ~= nil and x_display ~= ""
 end
 
+-- Configure clipboard if X display is detected
 if M.is_x_display() then
     vim.g.clipboard = {
-        name = "xsel",
+        name = "xclip",
         copy = {
-            ["+"] = "xsel --clipboard --input",
-            ["*"] = "xsel --input",
+            ["+"] = "xclip -f -sel clip",
+            ["*"] = "xclip -f -sel clip",
         },
         paste = {
-            ["+"] = "xsel --clipboard --output",
-            ["*"] = "xsel --output",
+            ["+"] = "xclip -o -sel clip",
+            ["*"] = "xclip -o -sel clip",
         },
         cache_enabled = 1,
     }

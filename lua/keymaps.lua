@@ -20,6 +20,9 @@ end
 --map("i", "<Down>", "", {noremap=true})
 --map("c", "<Down>", "", {noremap=true})
 
+-- Save file by hitting double escape
+map("i", "<esc><esc>", "<esc>:w<cr>", { noremap = true })
+
 -- Buffers
 map("n", "<C-H>", ":bprev<CR>", { noremap = true })
 map("n", "<C-L>", ":bnext<CR>", { noremap = true })

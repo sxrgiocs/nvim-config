@@ -13,6 +13,16 @@ cmp.setup {
             require("luasnip").lsp_expand(args.body)
         end,
     },
+
+    enabled = function()
+        local in_prompt = vim.api.nvim_buf_get_option(0, 'buftype') == 'prompt'
+        if in_prompt then -- this will disable cmp in the Telescope window (taken from the default config)
+            return false
+        end
+        local context = require("cmp.config.context")
+        return not (context.in_treesitter_capture("comment") == true or context.in_syntax_group("Comment"))
+    end,
+
     formatting = {
         format = function(entry, vim_item)
             -- load lspkind icons
@@ -23,10 +33,10 @@ cmp.setup {
             )
 
             vim_item.menu = ({
-                    nvim_lsp = "[LSP]",
-                    nvim_lua = "[Lua]",
-                    buffer = "[BUF]",
-                })[entry.source.name]
+                nvim_lsp = "[LSP]",
+                nvim_lua = "[Lua]",
+                buffer = "[BUF]",
+            })[entry.source.name]
 
             return vim_item
         end,
@@ -34,7 +44,7 @@ cmp.setup {
     mapping = {
         ["<C-p>"] = cmp.mapping.select_prev_item(),
         ["<C-n>"] = cmp.mapping.select_next_item(),
-        ["<C-d>"] = cmp.mapping.scroll_docs( -4),
+        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-c>"] = cmp.mapping.close(),
@@ -56,7 +66,7 @@ cmp.setup {
         ["<S-Tab>"] = function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
-            elseif require("luasnip").jumpable( -1) then
+            elseif require("luasnip").jumpable(-1) then
                 vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
             else
                 fallback()
@@ -64,6 +74,8 @@ cmp.setup {
         end,
     },
     sources = {
+
+        { name = "copilot", group_index = 2 },
         { name = "nvim_lsp" },
         { name = "luasnip" },
         { name = "buffer" },

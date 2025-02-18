@@ -106,9 +106,27 @@ return packer.startup(function(use)
         ft = { "tex" }
     }
 
+    --csv
+    use {
+        'mechatroner/rainbow_csv'
+    }
+
     -- daily usage
     use {
         'windwp/nvim-autopairs',
         -- 'andymass/vim-matchup'
+    }
+
+    -- copilot
+    use {
+        'zbirenbaum/copilot.lua',
+    }
+
+    use {
+        "zbirenbaum/copilot-cmp",
+        after = { "copilot.lua" },
+        config = function()
+            require("copilot_cmp").setup()
+        end
     }
 end)
