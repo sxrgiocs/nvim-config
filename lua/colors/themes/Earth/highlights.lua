@@ -35,11 +35,11 @@ hi("MatchParen", colors.green, colors.black2, nil)
 hi("CursorLine", nil, colors.black3, nil)
 hi("CursorLineNr", colors.orange, colors.black3, "bold")
 hi("LineNr", colors.black, nil, nil)
-hi("NonText", colors.background, nil, nil)       -- the ~ characters in the line number column
+hi("NonText", colors.background, nil, nil) -- the ~ characters in the line number column
 hi("statusline", colors.background, colors.background, nil)
 hi("statuslinenc", colors.black, colors.background, "bold,underline")
 hi("VertSplit", colors.background, colors.black, nil)
-hi("SignColumn", nil, colors.background, nil)    -- this is the column on the left of the line numbers
+hi("SignColumn", nil, colors.background, nil) -- this is the column on the left of the line numbers
 
 -- Pmenu
 hi("Pmenu", colors.gray, colors.black, nil)
@@ -59,10 +59,10 @@ hi("Function", colors.cyan, nil, nil)
 hi("Identifier", colors.cyan2, nil, nil)
 hi("Include", colors.purple, nil, nil)
 hi("Keyword", colors.yellow1, nil, "italic")
-hi("Label", colors.blue, nil, nil)         -- in json, this is basically everything
+hi("Label", colors.blue, nil, nil) -- in json, this is basically everything
 hi("Number", colors.red2, nil, nil)
 hi("Operator", colors.purple2, nil, nil)
-hi("PreProc", colors.cyan, nil, nil)       -- this is 'equation' 'document' and this sh in latex
+hi("PreProc", colors.cyan, nil, nil) -- this is 'equation' 'document' and this sh in latex
 hi("Repeat", colors.yellow, nil, nil)
 hi("Special", colors.pink, nil, nil)
 hi("SpecialChar", colors.purple2, nil, nil)
@@ -152,7 +152,7 @@ hi("NvimTreeRootFolder", colors.orange, colors.background2, "bold,underline")
 
 -- Dashboard
 hi("DashboardHeader", colors.red, colors.background, nil)
-hi("DashboardCenter", colors.white, colors.background, nil)       --the 'Find File' and all that
+hi("DashboardCenter", colors.white, colors.background, nil) --the 'Find File' and all that
 hi("DashboardShortcut", colors.red, colors.background, nil)
 hi("DashboardFooter", colors.black2, colors.background, nil)
 

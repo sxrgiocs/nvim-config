@@ -27,6 +27,9 @@ bufferline.setup {
         numbers = function(opts)
             return string.format('%s', opts.raise(opts.id))
         end,
+        indicator = {
+            style = "underline",
+        },
     },
 
     highlights = {
@@ -69,8 +72,8 @@ bufferline.setup {
         },
 
         indicator_selected = {
-            fg = colors.blue,
-            bg = colors.background
+            fg = colors.black3, -- a dark but visible color for subtlety
+            bg = colors.background,
         },
 
         -- separators
