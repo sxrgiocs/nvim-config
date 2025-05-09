@@ -47,7 +47,7 @@ local lsp_config = {
 
 local pylsp = require("plugins.configs.lsp.servers.pylsp")
 
-require('mason-lspconfig').setup_handlers({
+require('mason-lspconfig').setup({
     function(server_name)
         if server_name == 'pylsp' then
             pylsp()
