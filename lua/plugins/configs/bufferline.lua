@@ -28,7 +28,7 @@ bufferline.setup {
             return string.format('%s', opts.raise(opts.id))
         end,
         indicator = {
-            style = "underline",
+            style = "",
         },
     },
 
@@ -40,19 +40,20 @@ bufferline.setup {
 
         background = { -- color of the unselected buffers
             fg = colors.black2,
-            bg = colors.black
+            bg = colors.black,
         },
 
         -- buffers
         buffer_visible = {
             fg = colors.light_grey,
-            bg = colors.background
+            bg = colors.background,
         },
 
         buffer_selected = {
             fg = colors.white,
             bg = colors.background,
-            bold = true
+            bold = true,
+            underline = false,
         },
 
         -- tabs
@@ -63,7 +64,8 @@ bufferline.setup {
 
         tab_selected = {
             fg = colors.background,
-            bg = colors.background
+            bg = colors.background,
+            underline = false
         },
 
         tab_close = {
@@ -72,8 +74,8 @@ bufferline.setup {
         },
 
         indicator_selected = {
-            fg = colors.black3, -- a dark but visible color for subtlety
-            bg = colors.background,
+            fg = colors.black3,
+            bg = colors.black3,
         },
 
         -- separators
