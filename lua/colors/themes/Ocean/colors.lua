@@ -4,7 +4,7 @@ local colors = {
     background2 = "#0f1318", -- faint ripple variation
 
     black = "#1a1f24",       -- graphite
-    black2 = "#2a3036",      -- softened charcoal
+    black2 = "#424547",      -- softened charcoal
     black3 = "#111519",      -- near black with green hint
 
     red = "#a35c63",         -- desaturated crimson
