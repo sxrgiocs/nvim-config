@@ -8,6 +8,7 @@ vim.opt.completeopt = "menuone,noselect"
 
 -- nvim-cmp setup
 cmp.setup {
+    preselect = cmp.PreselectMode.None,
     snippet = {
         expand = function(args)
             require("luasnip").lsp_expand(args.body)
@@ -49,8 +50,9 @@ cmp.setup {
         ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-c>"] = cmp.mapping.close(),
         ["<CR>"] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = true,
+            {select=false},
+            -- behavior = cmp.ConfirmBehavior.Replace,
+            -- select = true,
         },
 
         ["<Tab>"] = function(fallback)
