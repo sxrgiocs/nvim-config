@@ -1,6 +1,6 @@
 -- lsp
-require 'plugins.configs.lsp.lspconfig'
 require 'plugins.configs.lsp.mason'
+require 'plugins.configs.lsp.lspconfig'  -- this goes always after mason
 require 'plugins.configs.lsp.handlers'
 require 'plugins.configs.lsp.lspkind'
 
@@ -28,3 +28,6 @@ require('gitsigns').setup()
 
 -- autopairs
 require('nvim-autopairs').setup()
+
+-- doge
+require 'plugins.configs.doge'

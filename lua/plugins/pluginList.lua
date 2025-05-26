@@ -129,4 +129,9 @@ return packer.startup(function(use)
             require("copilot_cmp").setup()
         end
     }
+
+    use {
+      'kkoomen/vim-doge',
+      run = ':call doge#install()'
+    }
 end)
