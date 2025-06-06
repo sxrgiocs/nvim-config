@@ -86,28 +86,12 @@ vim.api.nvim_exec([[
 let.vimtex_view_method = "zathura"
 let.vimtex_compiler_method = "latexmk"
 
-local M = {}
-
--- Function to check if X display is available
-M.is_x_display = function()
-    local x_display = os.getenv("DISPLAY")
-    return x_display ~= nil and x_display ~= ""
-end
-
--- Configure clipboard if X display is detected
-if M.is_x_display() then
-    vim.g.clipboard = {
-        name = "xclip",
-        copy = {
-            ["+"] = "xclip -f -sel clip",
-            ["*"] = "xclip -f -sel clip",
-        },
-        paste = {
-            ["+"] = "xclip -o -sel clip",
-            ["*"] = "xclip -o -sel clip",
-        },
-        cache_enabled = 1,
-    }
-end
+-- This will yank to your local clipboard whenever you yank in normal/visual mode
+vim.api.nvim_exec([[
+  augroup OscYank
+    autocmd!
+    autocmd TextYankPost * if v:event.operator ==# 'y' && v:event.regname == '' | execute 'OSCYankRegister "' | endif
+  augroup END
+]], false)
 
 return M

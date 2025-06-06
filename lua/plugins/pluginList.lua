@@ -134,4 +134,8 @@ return packer.startup(function(use)
       'kkoomen/vim-doge',
       run = ':call doge#install()'
     }
+
+    use {
+        'ojroques/vim-oscyank'
+    }
 end)
