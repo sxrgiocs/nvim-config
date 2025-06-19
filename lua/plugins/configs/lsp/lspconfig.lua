@@ -1,5 +1,6 @@
--- Mappings.
--- See `:help vim.diakgnostic.*` for documentation on any of the below functions
+-- lspconfig.lua
+
+-- Mappings
 local opts = { noremap = true, silent = true }
 
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
@@ -7,11 +8,8 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
+-- on_attach function
 local on_attach = function(client, bufnr)
-    -- Mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
@@ -30,7 +28,6 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
     vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 
-    -- format on save
     vim.api.nvim_create_autocmd('BufWritePre', {
         buffer = bufnr,
         callback = function()
@@ -39,23 +36,36 @@ local on_attach = function(client, bufnr)
     })
 end
 
+-- Shared config
 local lsp_config = {
-    on_attach = function(client, bufnr)
-        on_attach(client, bufnr)
-    end
+    on_attach = on_attach
 }
 
-local pylsp = require("plugins.configs.lsp.servers.pylsp")
+-- Import per-server configs
+local pylsp_config = require("plugins.configs.lsp.servers.pylsp")
+local lua_ls_config = require("plugins.configs.lsp.servers.lua_ls")
+local bashls_config = require("plugins.configs.lsp.servers.bashls")
 
+-- Mason + lspconfig integration
 require('mason-lspconfig').setup({
-    function(server_name)
-        if server_name == 'pylsp' then
-            pylsp()
-        else
-            require('lspconfig')[server_name].setup(lsp_config)
-        end
-    end,
+    ensure_installed = { "pylsp", "lua_ls", "bashls" },
+    handlers = {
+        function(server_name)
+            require('lspconfig')[server_name].setup({})
+        end,
 
-    require "plugins.configs.lsp.servers.lua_ls",
-    require "plugins.configs.lsp.servers.bashls"
+        ["pylsp"] = function()
+            require('lspconfig').pylsp.setup(pylsp_config)
+        end,
+
+        ["lua_ls"] = function()
+            require('lspconfig').lua_ls.setup(lua_ls_config)
+        end,
+
+        ["bashls"] = function()
+            require('lspconfig').bashls.setup(bashls_config)
+        end,
+    }
 })
+
+return lsp_config

@@ -1,20 +1,12 @@
--- pylsp.lua
-
--- Define the pylsp function
-local function pylsp()
-    require('lspconfig').pylsp.setup({
-        settings = {
-            pylsp = {
-                plugins = {
-                    pycodestyle = {
-                        ignore = { 'W391' },
-                        maxLineLength = 100
-                    }
+return {
+    settings = {
+        pylsp = {
+            plugins = {
+                pycodestyle = {
+                    ignore = { "W391", "E501" },
+                    maxLineLength = 200
                 }
             }
         }
-    })
-end
-
--- Return the pylsp function
-return pylsp
+    }
+}
