@@ -1,71 +1,86 @@
 -- lspconfig.lua
 
--- Mappings
-local opts = { noremap = true, silent = true }
+local nvim_lsp = require('lspconfig')
+local lsp_util = require('lspconfig.util')
 
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
-
--- on_attach function
+-- On_attach function to set keymaps and format on save
 local on_attach = function(client, bufnr)
-    local bufopts = { noremap = true, silent = true, buffer = bufnr }
+  local opts = { noremap = true, silent = true, buffer = bufnr }
 
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-    vim.keymap.set('n', '<space>k', vim.lsp.buf.hover, bufopts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-    vim.keymap.set('n', '<space>wl', function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, bufopts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+  vim.keymap.set('n', '<space>k', vim.lsp.buf.hover, opts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+  vim.keymap.set('n', '<space>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, opts)
+  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+  vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, opts)
 
-    vim.api.nvim_create_autocmd('BufWritePre', {
-        buffer = bufnr,
-        callback = function()
-            vim.lsp.buf.format()
-        end
-    })
+  -- Format on save
+  vim.api.nvim_create_autocmd('BufWritePre', {
+    buffer = bufnr,
+    callback = function() vim.lsp.buf.format() end,
+  })
 end
 
--- Shared config
-local lsp_config = {
-    on_attach = on_attach
+-- Optional: Define capabilities if you want to enhance completion, etc.
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- e.g., enhance with cmp_nvim_lsp if you use nvim-cmp (uncomment below)
+-- local cmp_nvim_lsp = require('cmp_nvim_lsp')
+-- capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+
+-- Register pylsp config using the new vim.lsp.config interface
+vim.lsp.config.pylsp = {
+  cmd = { "pylsp" },
+  filetypes = { "python" },
+  root_dir = lsp_util.root_pattern("pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile", ".git"),
+  settings = {
+    pylsp = {
+      plugins = {
+        pycodestyle = {
+          enabled = true,
+          ignore = { "W391", "E501" },
+          maxLineLength = 200,
+        },
+        -- you can enable or disable other pylsp plugins here
+      },
+    },
+  },
+  on_attach = on_attach,
+  capabilities = capabilities,
 }
 
--- Import per-server configs
-local pylsp_config = require("plugins.configs.lsp.servers.pylsp")
-local lua_ls_config = require("plugins.configs.lsp.servers.lua_ls")
-local bashls_config = require("plugins.configs.lsp.servers.bashls")
+-- Set up other language servers similarly if you want
+vim.lsp.config.lua_ls = {
+  cmd = { "lua-language-server" },
+  filetypes = { "lua" },
+  root_dir = lsp_util.root_pattern(".luarc.json", ".luarc.jsonc", ".luacheckrc", ".stylua.toml", "stylua.toml", "selene.toml", "selene.yml", ".git"),
+  settings = {
+    Lua = {
+      diagnostics = { globals = { "vim" } },
+      workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+      telemetry = { enable = false },
+    },
+  },
+  on_attach = on_attach,
+  capabilities = capabilities,
+}
 
--- Mason + lspconfig integration
+-- Now, use lspconfig to setup the servers explicitly
+nvim_lsp.pylsp.setup(vim.lsp.config.pylsp)
+nvim_lsp.lua_ls.setup(vim.lsp.config.lua_ls)
+
+-- Mason setup to ensure servers are installed
+require('mason').setup()
 require('mason-lspconfig').setup({
-    ensure_installed = { "pylsp", "lua_ls", "bashls" },
-    handlers = {
-        function(server_name)
-            require('lspconfig')[server_name].setup({})
-        end,
-
-        ["pylsp"] = function()
-            require('lspconfig').pylsp.setup(pylsp_config)
-        end,
-
-        ["lua_ls"] = function()
-            require('lspconfig').lua_ls.setup(lua_ls_config)
-        end,
-
-        ["bashls"] = function()
-            require('lspconfig').bashls.setup(bashls_config)
-        end,
-    }
+  ensure_installed = { "pylsp", "lua_ls" }
 })
 
-return lsp_config
+-- No longer need handlers in mason-lspconfig; just rely on lspconfig setup above

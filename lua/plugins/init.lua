@@ -18,7 +18,7 @@ require 'plugins.configs.nvimtree'
 
 -- completion
 require 'plugins.configs.cmp'
-require 'plugins.configs.copilot_lua'
+--require 'plugins.configs.copilot_lua'
 
 -- snippets
 require 'plugins.configs.luasnip'

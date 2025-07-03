@@ -118,17 +118,17 @@ return packer.startup(function(use)
     }
 
     -- copilot
-    use {
-        'zbirenbaum/copilot.lua',
-    }
+    -- use {
+    --     'zbirenbaum/copilot.lua',
+    -- }
 
-    use {
-        "zbirenbaum/copilot-cmp",
-        after = { "copilot.lua" },
-        config = function()
-            require("copilot_cmp").setup()
-        end
-    }
+    -- use {
+    --     "zbirenbaum/copilot-cmp",
+    --     after = { "copilot.lua" },
+    --     config = function()
+    --         require("copilot_cmp").setup()
+    --     end
+    -- }
 
     use {
       'kkoomen/vim-doge',
