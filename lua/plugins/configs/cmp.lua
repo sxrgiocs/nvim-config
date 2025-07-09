@@ -1,13 +1,9 @@
 local present, cmp = pcall(require, "cmp")
+if not present then return end
 
-if not present then
-    return
-end
+vim.opt.completeopt = { "menuone", "noselect" }
 
-vim.opt.completeopt = "menuone,noselect"
-
--- nvim-cmp setup
-cmp.setup {
+cmp.setup({
     preselect = cmp.PreselectMode.None,
     snippet = {
         expand = function(args)
@@ -15,72 +11,77 @@ cmp.setup {
         end,
     },
 
+
+    window = {
+        completion = cmp.config.window.bordered({
+            border = 'single',
+            winhighlight = 'Normal:Pmenu,Floatborder:Pmenu,CursorLine:PmenuSel,Search:none'
+        }),
+    },
+
     enabled = function()
-        local in_prompt = vim.api.nvim_buf_get_option(0, 'buftype') == 'prompt'
-        if in_prompt then -- this will disable cmp in the Telescope window (taken from the default config)
+        local buftype = vim.api.nvim_get_option_value("buftype", { buf = 0 })
+        if buftype == "prompt" then
             return false
         end
         local context = require("cmp.config.context")
-        return not (context.in_treesitter_capture("comment") == true or context.in_syntax_group("Comment"))
+        return not (context.in_treesitter_capture("comment") or context.in_syntax_group("Comment"))
     end,
 
     formatting = {
         format = function(entry, vim_item)
-            -- load lspkind icons
-            vim_item.kind = string.format(
-                "%s %s",
-                require("plugins.configs.lsp.lspkind").icons[vim_item.kind],
-                vim_item.kind
-            )
+            local kind_icons = require("plugins.configs.lsp.lspkind").icons or {}
+            vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind] or "", vim_item.kind)
 
             vim_item.menu = ({
-                nvim_lsp = "[LSP]",
-                nvim_lua = "[Lua]",
-                buffer = "[BUF]",
-            })[entry.source.name]
+                nvim_lsp = " lsp",
+                nvim_lua = " lua",
+                buffer = "󰈙 buf",
+                luasnip = " snip",
+                copilot = " copilot", -- optional, if you want to visually distinguish
+            })[entry.source.name] or ""
 
             return vim_item
         end,
     },
-    mapping = {
+
+    mapping = cmp.mapping.preset.insert({
         ["<C-p>"] = cmp.mapping.select_prev_item(),
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-d>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(),
-        ["<C-c>"] = cmp.mapping.close(),
-        ["<CR>"] = cmp.mapping.confirm {
-            {select=false},
-            -- behavior = cmp.ConfirmBehavior.Replace,
-            -- select = true,
-        },
+        ["<C-c>"] = cmp.mapping.abort(),
+        ["<CR>"] = cmp.mapping.confirm({ select = false }),
 
         ["<Tab>"] = function(fallback)
+            local luasnip = require("luasnip")
             if cmp.visible() then
                 cmp.select_next_item()
-            elseif require("luasnip").expand_or_jumpable() then
-                vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
             else
                 fallback()
             end
         end,
 
         ["<S-Tab>"] = function(fallback)
+            local luasnip = require("luasnip")
             if cmp.visible() then
                 cmp.select_prev_item()
-            elseif require("luasnip").jumpable(-1) then
-                vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
+            elseif luasnip.jumpable(-1) then
+                luasnip.jump(-1)
             else
                 fallback()
             end
         end,
-    },
-    sources = {
+    }),
 
+    sources = cmp.config.sources({
         { name = "copilot", group_index = 2 },
         { name = "nvim_lsp" },
         { name = "luasnip" },
         { name = "buffer" },
         { name = "nvim_lua" },
-    },
-}
+    }),
+})

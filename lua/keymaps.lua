@@ -7,21 +7,21 @@ local function map(mode, lhs, rhs, opts)
 end
 
 -- VIM hard mode
-map("n", "<Left>", "", {noremap=true})
-map("i", "<Left>", "", {noremap=true})
-map("c", "<Right>", "", {noremap=true})
-map("n", "<Right>", "", {noremap=true})
-map("i", "<Right>", "", {noremap=true})
-map("c", "<Right>", "", {noremap=true})
-map("n", "<Up>", "", {noremap=true})
-map("i", "<Up>", "", {noremap=true})
-map("c", "<Up>", "", {noremap=true})
-map("n", "<Down>", "", {noremap=true})
-map("i", "<Down>", "", {noremap=true})
-map("c", "<Down>", "", {noremap=true})
+map("n", "<Left>", "", { noremap = true })
+map("i", "<Left>", "", { noremap = true })
+map("c", "<Right>", "", { noremap = true })
+map("n", "<Right>", "", { noremap = true })
+map("i", "<Right>", "", { noremap = true })
+map("c", "<Right>", "", { noremap = true })
+map("n", "<Up>", "", { noremap = true })
+map("i", "<Up>", "", { noremap = true })
+map("c", "<Up>", "", { noremap = true })
+map("n", "<Down>", "", { noremap = true })
+map("i", "<Down>", "", { noremap = true })
+map("c", "<Down>", "", { noremap = true })
 
 -- Save file by hitting double escape
-map("i", "<esc><esc>", "<esc>:w<cr>", { noremap = true })
+-- map("i", "<esc><esc>", "<esc>:w<cr>", { noremap = true })
 
 -- Buffers
 map("n", "<C-H>", ":bprev<CR>", { noremap = true })

@@ -1,16 +1,23 @@
--- define the files that will be sourced
+local theme_name = require("colors.theme").ui.theme
+local highlights_path = "colors.themes." .. theme_name .. ".highlights"
+
+local ok, highlights = pcall(require, highlights_path)
+if ok then
+    highlights()
+else
+    vim.notify("Failed to load highlights for theme: " .. theme_name, vim.log.levels.ERROR)
+end
+
+-- Source other files
 local init_files = {
-    'options',
-    'keymaps',
-    'colors.highlights',
-    'plugins.pluginList',
-    'plugins.init',
+    "options",
+    "keymaps",
+    "config.lazy"
 }
 
--- quick troubleshoot: load the file except when it has some errors
 for _, file in ipairs(init_files) do
     local ok, err = pcall(require, file)
     if not ok then
-        error('Error loading file' .. file .. '\n\n' .. err)
+        error("Error loading file: " .. file .. "\n\n" .. err)
     end
 end

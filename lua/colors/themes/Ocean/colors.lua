@@ -1,7 +1,7 @@
 local colors = {
     white = "#e0e5ec",       -- misty white, matching the bird
     background = "#0b0f12",  -- deep abyss blue-black
-    background2 = "#0f1318", -- faint ripple variation
+    background2 = "#05080a", -- faint ripple variation
 
     black = "#1a1f24",       -- graphite
     black2 = "#424547",      -- softened charcoal

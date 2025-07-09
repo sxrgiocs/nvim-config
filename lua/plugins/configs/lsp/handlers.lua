@@ -1,34 +1,42 @@
-local signs = {
-    { name = "DiagnosticSignError", sign = "" },
-    { name = "DiagnosticSignWarn",  sign = "" },
-    { name = "DiagnosticSignInfo",  sign = "" },
-    { name = "DiagnosticSignHint",  sign = "󰌵" }
-}
-
-for _, sign in ipairs(signs) do
-    vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.sign, numhl = "" })
-end
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+-- Define diagnostic signs using vim.diagnostic.config, not vim.fn.sign_define
+vim.diagnostic.config({
     virtual_text = false,
-    signs = true,
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = "",
+            [vim.diagnostic.severity.WARN]  = "",
+            [vim.diagnostic.severity.INFO]  = "",
+            [vim.diagnostic.severity.HINT]  = "󰌵",
+        },
+    },
     underline = true,
-    -- set this to true if you want diagnostics to show in insert mode
     update_in_insert = false,
+    severity_sort = true,
+    float = {
+        focusable = false,
+        style = "minimal",
+        border = "single",
+        source = true,
+        header = "",
+        prefix = "[lsp] ",
+    },
 })
 
--- suppress error messages from lang servers
-vim.notify = function(msg, log_level, _opts)
-    if msg:match "exit code" then
-        return
-    end
-    if log_level == vim.log.levels.ERROR then
-        vim.api.nvim_err_writeln(msg)
-    else
-        vim.api.nvim_echo({ { msg } }, true, {})
+-- Only override vim.notify if not already wrapped
+if not vim.notify_orig then
+    vim.notify_orig = vim.notify
+    vim.notify = function(msg, level, opts)
+        if msg:match("exit code") then
+            return
+        end
+        vim.notify_orig(msg, level, opts)
     end
 end
 
--- show diagnostics on hover
+-- Automatically show diagnostics in floating window on CursorHold
 vim.o.updatetime = 250
-vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float({focusable=false})]]
+vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+    callback = function()
+        vim.diagnostic.open_float(nil, { focusable = false })
+    end,
+})
