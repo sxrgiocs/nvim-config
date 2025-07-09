@@ -51,6 +51,12 @@ require('cokeline').setup({
         end,
     },
 
+    -- Set the fill highlight (rest of the line)
+    vim.api.nvim_set_hl(0, 'TabLineFill', {
+        bg = colors.black3,
+        fg = colors.black2,
+    }),
+
     components = {
         -- Vertical separator
         {
@@ -67,10 +73,10 @@ require('cokeline').setup({
                 return ' ' .. buffer.index .. ' '
             end,
             fg = function(buffer)
-                return buffer.is_focused and colors.blue or colors.black
+                return buffer.is_focused and colors.gray or colors.black2
             end,
             bg = function(buffer)
-                return buffer.is_focused and colors.background or colors.background2
+                return buffer.is_focused and colors.black or colors.black3
             end,
             bold = true,
         },
@@ -82,10 +88,10 @@ require('cokeline').setup({
                 return icon .. ' '
             end,
             fg = function(buffer)
-                return buffer.is_focused and colors.blue or colors.black
+                return buffer.is_focused and colors.blue or colors.black2
             end,
             bg = function(buffer)
-                return buffer.is_focused and colors.background or colors.background2
+                return buffer.is_focused and colors.black or colors.black3
             end,
         },
 
@@ -93,8 +99,8 @@ require('cokeline').setup({
         {
             text = function(buffer) return buffer.filename .. ' ' end,
             bold = function(buffer) return buffer.is_focused end,
-            fg = function(buffer) return buffer.is_focused and colors.gray or colors.black end,
-            bg = function(buffer) return buffer.is_focused and colors.background or colors.background2 end,
+            fg = function(buffer) return buffer.is_focused and colors.gray or colors.black2 end,
+            bg = function(buffer) return buffer.is_focused and colors.black or colors.black3 end,
         },
 
         -- LSP diagnostics summary
@@ -114,9 +120,9 @@ require('cokeline').setup({
 
         -- Close icon
         {
-            text = '  ',
-            fg = function(buffer) return buffer.is_focused and colors.red or colors.black end,
-            bg = function(buffer) return buffer.is_focused and colors.background or colors.background2 end,
+            text = ' ',
+            fg = function(buffer) return buffer.is_focused and colors.red or colors.black2 end,
+            bg = function(buffer) return buffer.is_focused and colors.black or colors.black3 end,
             on_click = function(_, _, _, _, buffer)
                 buffer:delete()
             end,
