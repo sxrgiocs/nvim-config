@@ -68,14 +68,39 @@ ins_left {
     function()
         return '▊'
     end,
-    color = { fg = colors.blue },      -- Sets highlighting of component
-    padding = { left = 0, right = 1 }, -- We don't need space before this
+    color = function()
+        -- auto change color according to neovims mode
+        local mode_color = {
+            n = colors.red,
+            i = colors.green,
+            v = colors.blue,
+            [''] = colors.blue,
+            V = colors.blue,
+            c = colors.pink,
+            no = colors.red,
+            s = colors.orange,
+            S = colors.orange,
+            [''] = colors.orange,
+            ic = colors.yellow,
+            R = colors.purple,
+            Rv = colors.purple,
+            cv = colors.red,
+            ce = colors.red,
+            r = colors.cyan,
+            rm = colors.cyan,
+            ['r?'] = colors.cyan,
+            ['!'] = colors.red,
+            t = colors.red,
+        }
+        return { fg = mode_color[vim.fn.mode()] }
+    end,
+    padding = { left = 0, right = 2 }, -- We don't need space before this
 }
 
 ins_left {
     -- mode component
     function()
-        return '󰓥'
+        return '  '
     end,
     color = function()
         -- auto change color according to neovims mode
@@ -107,38 +132,11 @@ ins_left {
 }
 
 ins_left {
-    -- filesize component
-    'filesize',
-    cond = conditions.buffer_not_empty,
-}
-
-ins_left {
-    'filename',
-    cond = conditions.buffer_not_empty,
-    color = { fg = colors.pink, gui = 'bold' },
-}
-
-ins_left { 'location' }
-
-ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
-
-ins_left {
-    'diagnostics',
-    sources = { 'nvim_diagnostic' },
-    symbols = { error = ' ', warn = ' ', info = ' ' },
-    diagnostics_color = {
-        error = { fg = colors.red },
-        warn = { fg = colors.yellow },
-        info = { fg = colors.cyan },
-    },
-}
-
--- Insert mid section. You can make any number of sections in neovim :)
--- for lualine it's any number greater then 2
-ins_left {
     function()
-        return '%='
+        return ''
     end,
+    color = { fg = colors.black3 },    -- Sets highlighting of component
+    padding = { left = 0, right = 0 }, -- We don't need space before this
 }
 
 ins_left {
@@ -171,8 +169,78 @@ ins_left {
         end
         return msg
     end,
-    color = { fg = colors.gray, gui = 'bold' },
+    color = { fg = colors.gray, bg = colors.black3, gui = 'bold' },
 }
+
+ins_left {
+    function()
+        return ''
+    end,
+    color = { fg = colors.gray2, bg = colors.black3 }, -- Sets highlighting of component
+    padding = { left = 0, right = 0 },                 -- We don't need space before this
+}
+
+
+ins_left {
+    'filename',
+    cond = conditions.buffer_not_empty,
+    color = { fg = colors.background, bg = colors.gray2, gui = 'bold' },
+}
+
+ins_left {
+    function()
+        return ''
+    end,
+    color = { fg = colors.gray2, bg = colors.black2 }, -- Sets highlighting of component
+    padding = { left = 0, right = 0 },                 -- We don't need space before this
+}
+
+ins_left {
+    'diagnostics',
+    sources = { 'nvim_diagnostic' },
+    symbols = {
+        error = ' ',
+        warn  = ' ',
+        info  = ' ',
+        hint  = '󰌶 ',
+    },
+    diagnostics_color = {
+        error = { fg = colors.red, bg = colors.black2 },
+        warn  = { fg = colors.yellow, bg = colors.black2 },
+        info  = { fg = colors.cyan, bg = colors.black2 },
+        hint  = { fg = colors.blue, bg = colors.black2 }, -- or gray2, or your call
+    },
+}
+
+ins_left {
+    function()
+        return ''
+    end,
+    color = { fg = colors.black2 },    -- Sets highlighting of component
+    padding = { left = 0, right = 0 }, -- We don't need space before this
+}
+
+ins_left { 'location' }
+
+ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
+
+ins_left {
+    -- filesize component
+    'filesize',
+    cond = conditions.buffer_not_empty,
+}
+
+
+
+-- Insert mid section. You can make any number of sections in neovim :)
+-- for lualine it's any number greater then 2
+ins_left {
+    function()
+        return '%='
+    end,
+}
+
+
 
 -- Add components to right sections
 ins_right {
@@ -211,13 +279,11 @@ ins_right {
     function()
         return '▊'
     end,
-    color = { fg = colors.blue },
+    color = { fg = colors.black2 },
     padding = { left = 1 },
 }
 
 -- Now don't forget to initialize lualine
 lualine.setup(config)
 
--- Eviline config for lualine
--- Author: shadmansaleh
--- Credit: glepnir
+-- Based on Eviline config for lualine by shadmansaleh, Credit: glepnir
