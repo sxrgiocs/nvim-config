@@ -1,10 +1,12 @@
-require("plugins.configs.lsp.handlers")
+-- lspconfig.lua
+
 local nvim_lsp = require('lspconfig')
 local lsp_util = require('lspconfig.util')
 
 -- On_attach function to set keymaps and format on save
 local on_attach = function(client, bufnr)
     local opts = { noremap = true, silent = true, buffer = bufnr }
+
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', '<space>k', vim.lsp.buf.hover, opts)
@@ -34,77 +36,52 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 -- local cmp_nvim_lsp = require('cmp_nvim_lsp')
 -- capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
--- Mason setup first
-require('mason').setup()
-require('mason-lspconfig').setup({
-    ensure_installed = { "pylsp", "lua_ls" },
-})
-
--- Server configurations
-local servers = {
-    pylsp = {
-        cmd = { "pylsp" },
-        filetypes = { "python" },
-        root_dir = lsp_util.root_pattern("pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile", ".git"),
-        settings = {
-            pylsp = {
-                plugins = {
-                    pycodestyle = {
-                        enabled = true,
-                        ignore = { "W391", "E501" },
-                        maxLineLength = 200
-                    },
-                    pyflakes = { enabled = true },
-                    pylint = { enabled = false },
-                    autopep8 = { enabled = false },
-                    yapf = { enabled = false },
-                    mccabe = { enabled = false },
-                    -- Disable rope for performance
-                    rope_completion = { enabled = false },
-                    rope_autoimport = { enabled = false },
+-- Register pylsp config using the new vim.lsp.config interface
+vim.lsp.config.pylsp = {
+    cmd = { "pylsp" },
+    filetypes = { "python" },
+    root_dir = lsp_util.root_pattern("pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile", ".git"),
+    settings = {
+        pylsp = {
+            plugins = {
+                pycodestyle = {
+                    enabled = true,
+                    ignore = { "W391", "E501" },
+                    maxLineLength = 200,
                 },
+                -- you can enable or disable other pylsp plugins here
             },
         },
-        on_attach = on_attach,
-        capabilities = capabilities,
     },
-    lua_ls = {
-        cmd = { "lua-language-server" },
-        filetypes = { "lua" },
-        root_dir = lsp_util.root_pattern(".luarc.json", ".luarc.jsonc", ".luacheckrc",
-            ".stylua.toml", "stylua.toml", "selene.toml",
-            "selene.yml", ".git"),
-        settings = {
-            Lua = {
-                diagnostics = { globals = { "vim" } },
-                workspace = { library = vim.api.nvim_get_runtime_file("", true) },
-                telemetry = { enable = false },
-            },
-        },
-        on_attach = on_attach,
-        capabilities = capabilities,
-    },
+    on_attach = on_attach,
+    capabilities = capabilities,
 }
 
--- Setup servers immediately instead of lazy loading
-for server_name, config in pairs(servers) do
-    if nvim_lsp[server_name] then
-        nvim_lsp[server_name].setup(config)
-    else
-        vim.notify("LSP server " .. server_name .. " is not available", vim.log.levels.WARN)
-    end
-end
+-- Set up other language servers similarly if you want
+vim.lsp.config.lua_ls = {
+    cmd = { "lua-language-server" },
+    filetypes = { "lua" },
+    root_dir = lsp_util.root_pattern(".luarc.json", ".luarc.jsonc", ".luacheckrc", ".stylua.toml", "stylua.toml",
+        "selene.toml", "selene.yml", ".git"),
+    settings = {
+        Lua = {
+            diagnostics = { globals = { "vim" } },
+            workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+            telemetry = { enable = false },
+        },
+    },
+    on_attach = on_attach,
+    capabilities = capabilities,
+}
 
--- Optional: Add debug function to check if settings are loaded
-local function debug_pylsp_config()
-    local clients = vim.lsp.get_active_clients({ name = "pylsp" })
-    if #clients > 0 then
-        print("pylsp config:")
-        print(vim.inspect(clients[1].config.settings))
-    else
-        print("pylsp not active")
-    end
-end
+-- Now, use lspconfig to setup the servers explicitly
+nvim_lsp.pylsp.setup(vim.lsp.config.pylsp)
+nvim_lsp.lua_ls.setup(vim.lsp.config.lua_ls)
 
--- Uncomment the line below to debug pylsp configuration
--- vim.api.nvim_create_user_command('DebugPylsp', debug_pylsp_config, {})
+-- Mason setup to ensure servers are installed
+require('mason').setup()
+require('mason-lspconfig').setup({
+    ensure_installed = { "pylsp", "lua_ls" }
+})
+
+-- No longer need handlers in mason-lspconfig; just rely on lspconfig setup above
