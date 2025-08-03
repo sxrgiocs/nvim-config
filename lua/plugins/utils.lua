@@ -39,6 +39,7 @@ return {
     -- Signs for tracking Git files
     {
         'lewis6991/gitsigns.nvim',
+        event = { 'BufReadPre', 'BufNewFile' },
         requires = {
             'nvim-lua/plenary.nvim'
         },
