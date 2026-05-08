@@ -52,21 +52,21 @@ set.backup = false
 set.undodir = os.getenv("HOME") .. "/.nvim_undodir"
 set.undofile = true
 
--- Clipboard 
+-- Clipboard
 vim.api.nvim_create_autocmd("TextYankPost", {
-  group = vim.api.nvim_create_augroup("OscYank", { clear = true }),
-  callback = function()
-    if vim.v.event.operator == "y" and vim.v.event.regname == "" then
-      vim.cmd('OSCYankRegister "')
-    end
-  end,
+    group = vim.api.nvim_create_augroup("OscYank", { clear = true }),
+    callback = function()
+        if vim.v.event.operator == "y" and vim.v.event.regname == "" then
+            vim.cmd('OSCYankRegister "')
+        end
+    end,
 })
 
 -- LaTeX settings (I do not how how to write 'au' in lua bc I'm stupid)
 -- LaTeX PDF previews
-let.vimtex_view_method = "zathura"
+let.vimtex_view_method = "sioyek"
 let.vimtex_compiler_method = "latexmk"
-let.latex_pdf_viewer = "zathura"
+let.latex_pdf_viewer = "sioyek"
 let.latex_engine = "xelatex"
 
 exec([[
@@ -82,21 +82,20 @@ exec([[
 )
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "dashboard",
-  callback = function()
-    vim.o.showtabline = 0
-    vim.api.nvim_create_autocmd("WinLeave", {
-      buffer = 0,
-      once = true,
-      callback = function()
-        vim.o.showtabline = 2
-      end,
-    })
-  end,
+    pattern = "dashboard",
+    callback = function()
+        vim.o.showtabline = 0
+        vim.api.nvim_create_autocmd("WinLeave", {
+            buffer = 0,
+            once = true,
+            callback = function()
+                vim.o.showtabline = 2
+            end,
+        })
+    end,
 })
 
 -- Third party stuff
 -- languagetool
 let.languagetool_lang = "en-US"
 let.languagetool_jar = "/usr/share/java/languagetool/languagetool-commandline.jar"
-
