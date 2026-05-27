@@ -1,6 +1,5 @@
 local set = vim.opt
 local let = vim.g
-local exec = vim.api.nvim_exec
 
 set.encoding = "utf-8"
 set.fileencodings = "utf-8"
@@ -62,24 +61,28 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     end,
 })
 
--- LaTeX settings (I do not how how to write 'au' in lua bc I'm stupid)
+-- LaTeX settings (now written cleanly in modern Neovim Lua!)
 -- LaTeX PDF previews
 let.vimtex_view_method = "sioyek"
 let.vimtex_compiler_method = "latexmk"
 let.latex_pdf_viewer = "sioyek"
 let.latex_engine = "xelatex"
 
-exec([[
-    autocmd BufNewFile,BufRead *.tex set nocursorline
-    autocmd BufNewFile,BufRead *.tex set nornu
-    autocmd BufNewFile,BufRead *.tex set number
-    autocmd BufNewFile,BufRead *.tex let g:loaded_matchparen=1
-    autocmd BufNewFile,BufRead *.tex set noshowmatch
-    autocmd BufNewFile,BufRead *.tex set conceallevel=0
-    autocmd BufRead,BufNewFile *.tex setlocal textwidth=120
-    autocmd BufRead,BufNewFile *.tex setlocal spell
-    ]], false
-)
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = "*.tex",
+    group = vim.api.nvim_create_augroup("LatexSettings", { clear = true }),
+    callback = function()
+        local setlocal = vim.opt_local
+        setlocal.cursorline = false
+        setlocal.relativenumber = false
+        setlocal.number = true
+        vim.g.loaded_matchparen = 1
+        setlocal.showmatch = false
+        setlocal.conceallevel = 0
+        setlocal.textwidth = 120
+        setlocal.spell = true
+    end,
+})
 
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "dashboard",

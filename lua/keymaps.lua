@@ -27,8 +27,8 @@ map("c", "<Down>", "", { noremap = true })
 map("n", "<C-H>", ":bprev<CR>", { noremap = true })
 map("n", "<C-L>", ":bnext<CR>", { noremap = true })
 
--- NVimTree
-map("n", "<leader>t", ":NvimTreeToggle<CR>", { noremap = true })
+-- Snacks Explorer (Filetree)
+map("n", "<leader>t", "<cmd>lua Snacks.explorer()<CR>", { noremap = true })
 
 -- Ranger
 map("n", "<leader>r", ":Ranger<CR>", {})

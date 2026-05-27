@@ -12,7 +12,10 @@ end
 local init_files = {
     "options",
     "keymaps",
-    "config.lazy"
+    "config.lazy",
+    "config.lsp",
+    "config.statusline",
+    "config.tabline",
 }
 
 for _, file in ipairs(init_files) do
