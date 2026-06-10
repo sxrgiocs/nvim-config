@@ -52,14 +52,17 @@ set.undodir = os.getenv("HOME") .. "/.nvim_undodir"
 set.undofile = true
 
 -- Clipboard
-vim.api.nvim_create_autocmd("TextYankPost", {
-    group = vim.api.nvim_create_augroup("OscYank", { clear = true }),
-    callback = function()
-        if vim.v.event.operator == "y" and vim.v.event.regname == "" then
-            vim.cmd('OSCYankRegister "')
-        end
-    end,
-})
+let.clipboard = {
+    name = 'OSC 52',
+    copy = {
+        ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+        ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+    },
+    paste = {
+        ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+        ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+    },
+}
 
 -- LaTeX settings (now written cleanly in modern Neovim Lua!)
 -- LaTeX PDF previews
