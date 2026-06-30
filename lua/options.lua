@@ -3,7 +3,6 @@ local let = vim.g
 
 set.encoding = "utf-8"
 set.fileencodings = "utf-8"
-set.clipboard = 'unnamedplus'
 set.termguicolors = true
 set.cursorline = true
 let.mapleader = " "
@@ -52,17 +51,7 @@ set.undodir = os.getenv("HOME") .. "/.nvim_undodir"
 set.undofile = true
 
 -- Clipboard
-let.clipboard = {
-    name = 'OSC 52',
-    copy = {
-        ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
-        ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
-    },
-    paste = {
-        ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
-        ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
-    },
-}
+set.clipboard = 'unnamedplus'
 
 -- LaTeX settings (now written cleanly in modern Neovim Lua!)
 -- LaTeX PDF previews
