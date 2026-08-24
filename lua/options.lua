@@ -68,7 +68,7 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
         setlocal.cursorline = false
         setlocal.relativenumber = false
         setlocal.number = true
-        vim.g.loaded_matchparen = 1
+        let.loaded_matchparen = 1
         setlocal.showmatch = false
         setlocal.conceallevel = 0
         setlocal.textwidth = 120

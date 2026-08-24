@@ -32,25 +32,27 @@ vim.api.nvim_set_hl(0, "SlOpt", { fg = colors.black2, bg = colors.black, bold = 
 
 -- Dynamic Mode Colors
 local mode_colors = {
-    n = colors.red,
-    i = colors.green,
-    v = colors.blue,
-    V = colors.blue,
-    c = colors.pink,
-    no = colors.red,
-    s = colors.orange,
-    S = colors.orange,
-    [' '] = colors.orange,
-    ic = colors.yellow,
-    R = colors.purple,
-    Rv = colors.purple,
-    cv = colors.red,
-    ce = colors.red,
-    r = colors.cyan,
-    rm = colors.cyan,
-    ['r?'] = colors.cyan,
-    ['!'] = colors.red,
-    t = colors.red,
+    -- Normal & Operators
+    n       = colors.gray2,
+    no      = colors.red,   -- Operator-pending (waiting for motion after d, y, c)
+    ['niI'] = colors.gray2, -- Normal mode via <C-O> from Insert
+    ['nt']  = colors.gray2, -- Normal mode inside a terminal buffer
+    -- Insert
+    i       = colors.green,
+    -- Visual
+    v       = colors.pink, -- Characterwise Visual
+    V       = colors.pink, -- Linewise Visual
+    ['\22'] = colors.pink, -- Blockwise Visual (<C-V>)
+    -- Select (used by snippet engines like LuaSnip)
+    s       = colors.blue, -- Characterwise Select
+    S       = colors.blue, -- Linewise Select
+    ['\19'] = colors.blue, -- Blockwise Select (<C-S>)
+    -- Replace
+    R       = colors.red,
+    -- Command-line
+    c       = colors.yellow2,
+    -- Terminal
+    t       = colors.cyan,
 }
 
 local function get_mode_hl()
@@ -140,7 +142,7 @@ local function get_git()
 
     -- Modified Square
     if changed > 0 then
-        changes_str = changes_str .. "%#SlGitModSquare#■%#SlGitText# " .. changed .. " "
+        changes_str = changes_str .. "%#SlGitModSquare#●%#SlGitText# " .. changed .. " "
     else
         changes_str = changes_str .. "%#SlGitDimSquare#● "
     end
@@ -179,10 +181,12 @@ _G.NativeStatusLine = function()
     local st = ""
 
     -- Left block
+    -- Home
     st = st .. get_mode_hl() .. "▊  "
+    -- LSP server
     st = st .. "%#SlSepLeft#"
     st = st .. "%#SlLsp#" .. get_lsp()
-
+    -- Filename with parent folder
     local filename = vim.fn.expand('%:t')
     if filename == "" then
         filename = "[No Name]"
@@ -197,29 +201,34 @@ _G.NativeStatusLine = function()
     st = st .. "%#SlSepMidL#"
     st = st .. "%#SlFile#" .. filename
     st = st .. "%#SlSepMidR# "
-
+    -- LSP diagnostic
     local diag = get_diagnostics()
     if diag ~= "" then
         st = st .. diag
     end
     st = st .. "%#SlSepRight# "
-
+    -- Line and column
     st = st .. "%#SlLoc#%l:%c "
+    -- File percentage
     st = st .. " %#SlNormal#%p%%  "
-    local fsize = get_filesize()
-    if fsize ~= "" then
-        st = st .. "%#SlNormal#" .. fsize .. " "
-    end
 
     -- Middle separator (aligns everything after to the right)
     st = st .. "%="
 
     -- Right block
+    -- File encoding
     if hide_in_width then
         st = st .. get_git()
         st = st .. "%#SlOpt#" .. string.upper(vim.bo.fileencoding or "") .. "  "
     end
-    st = st .. "%#SlOpt#" .. string.upper(vim.bo.fileformat or "") .. " "
+    -- File format
+    st = st .. "%#SlOpt#" .. string.upper(vim.bo.fileformat or "") .. "  "
+    -- File size
+    local fsize = get_filesize()
+    if fsize ~= "" then
+        st = st .. "%#SlNormal#" .. fsize .. " "
+    end
+    -- Ending tail
     st = st .. "%#SlOpt#▊"
 
     return st
