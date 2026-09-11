@@ -3,7 +3,7 @@ local function map(mode, lhs, rhs, opts)
     if opts then
         options = vim.tbl_extend("force", options, opts)
     end
-    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+    vim.keymap.set(mode, lhs, rhs, options)
 end
 
 -- VIM hard mode
@@ -28,7 +28,14 @@ map("n", "<C-H>", ":bprev<CR>", { noremap = true })
 map("n", "<C-L>", ":bnext<CR>", { noremap = true })
 
 -- Snacks Explorer (Filetree)
-map("n", "<leader>t", "<cmd>lua Snacks.explorer()<CR>", { noremap = true })
+map("n", "<leader>t", function()
+    local bufname = vim.api.nvim_buf_get_name(0)
+    local dir = nil
+    if bufname ~= "" and vim.bo.buftype == "" then
+        dir = vim.fs.dirname(bufname)
+    end
+    Snacks.explorer({ cwd = dir or vim.fn.getcwd() })
+end, { desc = "Toggle Snacks Explorer (buffer dir)" })
 
 -- Ranger
 map("n", "<leader>r", ":Ranger<CR>", {})

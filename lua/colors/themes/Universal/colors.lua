@@ -44,8 +44,8 @@ return {
     blue        = p.color4,
     blue2       = p.color12,
 
-    purple      = p.color5,
-    purple2     = p.color13,
+    magenta     = p.color5,
+    magenta2    = p.color13,
 
     cyan        = p.color6,
     cyan2       = p.color14,
@@ -53,6 +53,8 @@ return {
     -- The extended Neovim colors
     pink        = p.pink,
     pink2       = p.pink2,
+    violet      = p.violet,
+    violet2     = p.violet2,
     orange      = p.orange,
     orange2     = p.orange2,
     gray        = p.color7,
