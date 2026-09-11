@@ -2,14 +2,6 @@ return {
     -- Autopairs, self-explanatory
     'windwp/nvim-autopairs',
 
-    -- Proper coloring of files
-    {
-        'nvim-treesitter/nvim-treesitter',
-        config = function()
-            require 'plugins.configs.treesitter'
-        end,
-    },
-
     -- Clipboard
     'ojroques/vim-oscyank',
 

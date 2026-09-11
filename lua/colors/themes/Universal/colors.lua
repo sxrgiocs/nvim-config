@@ -46,6 +46,8 @@ return {
 
     magenta     = p.color5,
     magenta2    = p.color13,
+    purple      = p.violet or p.color5,
+    purple2     = p.violet2 or p.color13,
 
     cyan        = p.color6,
     cyan2       = p.color14,

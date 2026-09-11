@@ -12,6 +12,7 @@ end
 local init_files = {
     "options",
     "keymaps",
+    "colors.syntax.python",
     "config.lazy",
     "config.lsp",
     "config.statusline",

@@ -33,16 +33,22 @@ local hl_groups = {
     SnacksWinSeparator = { fg = bg, bg = bg },
     WinSeparator = { fg = bg, bg = bg },
 
+    -- Folder icons and directory/file names
+    Directory = { fg = colors.cyan },
+    SnacksPickerDirectory = { fg = fg, bg = bg },
+    SnacksPickerDir = { fg = fg, bg = bg },
+    SnacksPickerFile = { fg = fg, bg = bg },
+
     -- Git Status highlights inside Snacks Picker/Explorer
-    -- SnacksPickerGitStatusAdded = { fg = colors.green, bg = bg },
-    SnacksPickerGitStatusModified = { fg = colors.orange2, bg = bg },
+    SnacksPickerGitStatusModified = { fg = colors.yellow, bg = bg },
+    SnacksPickerGitStatusAdded = { fg = colors.green, bg = bg },
+    SnacksPickerGitStatusUntracked = { fg = colors.green, bg = bg },
+    SnacksPickerGitStatusStaged = { fg = colors.green, bg = bg },
     SnacksPickerGitStatusDeleted = { fg = colors.red, bg = bg },
     SnacksPickerGitStatusRenamed = { fg = colors.purple, bg = bg },
     SnacksPickerGitStatusCopied = { fg = colors.purple, bg = bg },
-    SnacksPickerGitStatusUntracked = { fg = colors.green, bg = bg },
     SnacksPickerGitStatusIgnored = { fg = colors.black2, bg = bg },
     SnacksPickerGitStatusUnmerged = { fg = colors.red, bg = bg },
-    SnacksPickerGitStatusStaged = { fg = colors.green2, bg = bg },
 }
 
 for hl_name, hl_def in pairs(hl_groups) do
@@ -52,6 +58,11 @@ end
 require("snacks").setup({
     picker = {
         enabled = true,
+        formatters = {
+            file = {
+                git_status_hl = false, -- keep text white, only git status icon has color
+            },
+        },
         icons = {
             git = {
                 enabled   = true,
