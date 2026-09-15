@@ -11,17 +11,26 @@ M.query = [[
 "return" @keyword.return
 [ "import" "from" "as" ] @keyword.import
 [
-  "class"
   "if"
   "elif"
   "else"
+  "match"
+  "case"
+] @keyword.conditional
+
+[
+  "try"
+  "except"
+  "finally"
+  "raise"
+] @keyword.exception
+
+[
+  "class"
   "for"
   "while"
   "break"
   "continue"
-  "try"
-  "except"
-  "finally"
   "with"
   "in"
   "is"
@@ -30,7 +39,6 @@ M.query = [[
   "or"
   "yield"
   "pass"
-  "raise"
   "lambda"
 ] @keyword
 

@@ -50,7 +50,7 @@ local mode_colors = {
     -- Replace
     R       = colors.red,
     -- Command-line
-    c       = colors.yellow2,
+    c       = colors.yellow,
     -- Terminal
     t       = colors.cyan,
 }
