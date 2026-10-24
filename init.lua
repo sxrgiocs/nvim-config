@@ -17,6 +17,7 @@ local init_files = {
     "config.lsp",
     "config.statusline",
     "config.tabline",
+    "config.diff_file",
 }
 
 for _, file in ipairs(init_files) do
